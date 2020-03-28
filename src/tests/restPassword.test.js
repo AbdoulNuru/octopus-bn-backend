@@ -36,14 +36,14 @@ describe('Reset password tests', () => {
         done();
       });
   });
-  it('It should a reset password', (done) => {
+  it('It should reset the password', (done) => {
     chai
       .request(app)
       .put(`/api/v1/auth/reset-password/${mockToken}`)
       .send({
         email: 'rusimbipatrick@outlook.com',
-        password: 'thisisnew',
-        confirmPassword: 'thisisnew'
+        password: 'TC866XY9EHEGz!+P',
+        confirmPassword: 'TC866XY9EHEGz!+P'
       })
       .end((err, res) => {
         expect(res.body).to.have.keys('status', 'message');
@@ -53,14 +53,14 @@ describe('Reset password tests', () => {
         done();
       });
   });
-  it('It should return an error when new password and confirm password', (done) => {
+  it('It should return an error when new password and confirm password do not match', (done) => {
     chai
       .request(app)
       .put(`/api/v1/auth/reset-password/${mockToken}`)
       .send({
         email: 'rusimbipatrick@outlook.com',
-        password: 'thisisnew',
-        confirmPassword: 'notmatching'
+        password: 'TC866XY9EHEGz!+P',
+        confirmPassword: 'TC866XY9EHEGz!jgw+P'
       })
       .end((err, res) => {
         expect(res.body).to.have.keys('status', 'error');
@@ -76,8 +76,8 @@ describe('Reset password tests', () => {
       .request(app)
       .put(`/api/v1/auth/reset-password/${unRegisteredToken}`)
       .send({
-        password: 'thisisnew',
-        confirmPassword: 'thisisnew'
+        password: 'TC866XY9EHEGz!+P',
+        confirmPassword: 'TC866XY9EHEGz!+P'
       })
       .end((err, res) => {
         expect(res.body).to.have.keys('status', 'error');

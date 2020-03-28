@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import isLoggedIn from '../../utils/isLoggedIn';
+import Welcome from '../../utils/welcome';
 
 const router = Router();
 
@@ -15,7 +15,7 @@ const router = Router();
  *     '200':
  *       description: 'Welcome to Barefoot Nomad'
  */
-router.get('/', isLoggedIn);
+router.get('/', Welcome);
 
 
 export default router;

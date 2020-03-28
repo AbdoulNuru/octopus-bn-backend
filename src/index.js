@@ -10,6 +10,7 @@ import i18n from 'i18n-2';
 import session from 'express-session';
 import path from 'path';
 import router from './routes/index';
+import rateLimit from 'express-rate-limit';
 import { socketio } from './utils/socket';
 
 dotenv.config();
@@ -19,6 +20,22 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Create global app object
 const app = express();
 
+//Request Rate limit
+if(process.env.NODE_ENV !== 'test'){  
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+app.set('trust proxy', 1);
+ 
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message:
+    "Too many requests from this IP, please try again after an hour"
+});
+ 
+//  apply to all requests
+app.use(limiter);
+
+}
 
 // serve static files
 app.use('/static', express.static(path.join(__dirname, '../public')));

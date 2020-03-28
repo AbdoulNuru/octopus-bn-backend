@@ -12,6 +12,7 @@ import {
   noAround,
   zeroAmenities
 } from './mock/accommodationMock';
+import { octopusbn } from './mock/tokens';
 
 const trueRatings = {
 	"accommodationId":"c8e9428a-6d60-4083-8ce3-334c62afe72c",
@@ -20,22 +21,11 @@ const trueRatings = {
 chai.use(chaiHttp);
 const prefix = '/api/v1/accommodations';
 describe('RATE ACCOMMODATIONS', () => {
-  it('should sign in a user first', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'octopusbn@gmail.com',
-        password: 'password'
-      })
-      .end((err, res) => {
-        expect(res.body.status).to.be.equal(200);
-        expect(res);
-        done();
-      });
-  });
   it('should rate an accommodation successfully', (done) => {
-    chai.request(app).post(`${prefix}/rating`).send(trueRatings).end((err, res) => {
+    chai.request(app)
+    .post(`${prefix}/rating`)
+    .set('x-access-token', `${octopusbn}`)
+    .send(trueRatings).end((err, res) => {
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('message');
       expect(res.body).to.have.property('status', 201);
@@ -43,7 +33,10 @@ describe('RATE ACCOMMODATIONS', () => {
     });
   });
   it('should update ratings successfully', (done) => {
-    chai.request(app).post(`${prefix}/rating`).send(trueRatings).end((err, res) => {
+    chai.request(app)
+    .post(`${prefix}/rating`)
+    .set('x-access-token', `${octopusbn}`)
+    .send(trueRatings).end((err, res) => {
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('message');
       expect(res.body).to.have.property('status', 200);
@@ -51,7 +44,10 @@ describe('RATE ACCOMMODATIONS', () => {
     });
   });
   it('should not rate without proving data', (done) => {
-    chai.request(app).post(`${prefix}/rating`).end((err, res) => {
+    chai.request(app)
+    .post(`${prefix}/rating`)
+    .set('x-access-token', `${octopusbn}`)
+    .end((err, res) => {
       expect(res).to.have.status(400);
       expect(res.body).to.have.property('error');
       expect(res.body).to.have.property('status', 400);
@@ -60,7 +56,10 @@ describe('RATE ACCOMMODATIONS', () => {
   });
 
   it('should not rate without wrong rating', (done) => {
-    chai.request(app).post(`${prefix}/rating`).send({
+    chai.request(app)
+    .post(`${prefix}/rating`)
+    .set('x-access-token', `${octopusbn}`)
+    .send({
       "accommodationId":"c8e9428a-6d60-4083-8ce3-334c62afe72c",
 	    "rating": 10
     }).end((err, res) => {

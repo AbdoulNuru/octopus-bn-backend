@@ -27,6 +27,12 @@ const router = express.Router();
  *     description: trip requests
  *     tags:
  *       - Trips
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -87,6 +93,12 @@ router.post('/request', [checkUser, isProfileUpdated, dateValidator, tripRequest
  *     description: Create a multi city trip request
  *     tags:
  *       - Trips
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -177,6 +189,11 @@ router.post('/multi-city', [checkUser, isProfileUpdated, validateMultiCity, vali
  *                   stops:
  *                      type: array
  *     parameters:
+ *          - name: x-access-token
+ *            description: Access token.
+ *            in: header
+ *            required: true
+ *            type: string
  *          - name: tripId
  *            description: page number.
  *            in: path
@@ -212,6 +229,11 @@ tripsController.rejectTrip);
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: page
  *         description: page number.
  *         in: path
@@ -249,6 +271,11 @@ router.get('/avail-requests', checkUser, isProfileUpdated, validateParams, trips
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: page
  *         description: page number.
  *         in: path
@@ -287,6 +314,11 @@ router.get('/request', checkUser, isProfileUpdated, validateParams, tripsControl
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: page
  *         description: page number.
  *         in: path
@@ -350,6 +382,11 @@ router.get('/search', checkUser, isProfileUpdated, validateParams, tripsControll
  *                   stops:
  *                      type: array
  *     parameters:
+ *          - name: x-access-token
+ *            description: Access token.
+ *            in: header
+ *            required: true
+ *            type: string
  *          - name: tripId
  *            description: page number.
  *            in: path
@@ -385,6 +422,11 @@ tripsController.approveTrip);
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: requestId
  *         description: trip request id.
  *         in: path
@@ -406,6 +448,11 @@ router.get('/:requestId', checkUser, tripsController.getOnetripRequest);
  *     tags:
  *       - Trips
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: tripId
  *         description: trip request id.
  *         in: path
@@ -481,6 +528,11 @@ tripsController.editTrip);
  *     tags:
  *       - Trips
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: from
  *         description: from date.
  *         in: path

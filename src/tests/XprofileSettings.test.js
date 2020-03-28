@@ -2,6 +2,7 @@ import Chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
 import { profile, nonExistManager } from './mock/profileSettingsMock';
+import { abdoulniyigena } from './mock/tokens';
 
 Chai.use(chaiHttp);
 Chai.should();
@@ -25,6 +26,7 @@ describe('Profile settings', () => {
     Chai
       .request(app)
       .put('/api/v1/auth/profile-settings')
+      .set('x-access-token', `${abdoulniyigena}`)
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -49,6 +51,7 @@ describe('Profile settings', () => {
     Chai
       .request(app)
       .put('/api/v1/auth/profile-settings')
+      .set('x-access-token', `${abdoulniyigena}`)
       .send(nonExistManager)
       .end((err, res) => {
         res.should.have.status(404);

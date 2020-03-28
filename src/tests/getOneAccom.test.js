@@ -1,6 +1,7 @@
 import Chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
+import { blaiseen } from './mock/tokens';
 
 Chai.use(chaiHttp);
 Chai.should();
@@ -24,6 +25,7 @@ describe('Barefoot nomad should show a particular accommodation', () => {
     Chai
       .request(app)
       .get('/api/v1/accommodations/c8e9428a-6d60-4083-8ce3-334c62afe72c')
+      .set('x-access-token', `${blaiseen}`)
       .end((err, res) => {
         res.body.should.have.status(200);
         res.body.should.have.property('message', 'Accommodation retrieved successfully');
@@ -35,6 +37,7 @@ describe('Barefoot nomad should show a particular accommodation', () => {
     Chai
       .request(app)
       .get('/api/v1/accommodations/c8e9428a-6d60-4083-8ce3-334c62afe72')
+      .set('x-access-token', `${blaiseen}`)
       .end((err, res) => {
         res.body.should.have.status(404);
         res.body.should.have.property('error', 'No accommodation found with the given id');
@@ -46,6 +49,7 @@ describe('Barefoot nomad should show a particular accommodation', () => {
     Chai
       .request(app)
       .get('/api/v1/accommodations?page=1&limit=5&id=   ')
+      .set('x-access-token', `${blaiseen}`)
       .end((err, res) => {
         res.body.should.have.status(400);
         res.body.should.have.property('error');
@@ -57,6 +61,7 @@ describe('Barefoot nomad should show a particular accommodation', () => {
     Chai
       .request(app)
       .get('/api/v1/accommodations/likes/3478r65863868')
+      .set('x-access-token', `${blaiseen}`)
       .end((err, res) => {
         res.body.should.have.status(404);
         res.body.should.have.property('error');
@@ -68,6 +73,7 @@ describe('Barefoot nomad should show a particular accommodation', () => {
     Chai
       .request(app)
       .get('/api/v1/accommodations/likes/c8e9428a-6d60-4083-8ce3-334c62afe72c')
+      .set('x-access-token', `${blaiseen}`)
       .end((err, res) => {
         res.body.should.have.status(200);
         done();

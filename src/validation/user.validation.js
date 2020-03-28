@@ -40,13 +40,13 @@ const checkRoles = [body('role')
   .matches('^travel_administrator$|^travel_team_member$|^manager$|^requester$|^accommodation_supplier$')
   .withMessage('The user role must be one of these roles: travel_administrator, travel_team_member, manager, requester, accommodation_supplier')];
 
-const checkPassword = [body('password').not().isEmpty({ ignore_whitespace: true })
-  .withMessage('PasswordRequired')
-  .bail()
-  .isAlphanumeric()
-  .withMessage('AlphaPasswordOnly')
+  const checkPassword = [body('password')
+  .not().isEmpty({ ignore_whitespace: true })
+  .withMessage('Password is required')
   .isLength({ min: 8 })
-  .withMessage('PasswordMoreThan8')];
+  .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/,)
+  .withMessage('Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character.')];
+
 const checkGender = [body('gender').not().isEmpty({ ignore_whitespace: true })
   .withMessage('GenderRequired')
   .bail()
@@ -94,13 +94,12 @@ const checkPassportNumber = [body('passportNumber').not().isEmpty({ ignore_white
   .matches(/[a-zA-Z]{2}[0-9]{7}/)
   .withMessage('PassportNunInvalid')];
 
-const checkConfirmPassword = [body('confirmPassword').not().isEmpty({ ignore_whitespace: true })
-  .withMessage('confirmPassword is required')
-  .bail()
-  .isAlphanumeric()
-  .withMessage('Password must be alphanumeric')
-  .isLength({ min: 8 })
-  .withMessage('password length must be longer than 8')];
+const checkConfirmPassword = [body('confirmPassword')
+.not().isEmpty({ ignore_whitespace: true })
+.withMessage('Password is required')
+.isLength({ min: 8 })
+.matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/,)
+.withMessage('Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character.')];
 
 const notifyByEmail = [body('notifyByEmail').not().isEmpty({ ignore_whitespace: true })
   .withMessage('notifyByEmail is required')

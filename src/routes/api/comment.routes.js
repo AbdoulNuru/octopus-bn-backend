@@ -36,6 +36,11 @@ const comments = new commentsController();
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: requestId
  *         description: requestId.
  *         in: path
@@ -67,6 +72,11 @@ router.post('/', checkUser, idValidator, commentValidator, comments.addComment);
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: commentId
  *         description: commentId.
  *         in: path

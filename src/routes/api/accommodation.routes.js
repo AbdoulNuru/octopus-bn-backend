@@ -29,6 +29,12 @@ const router = express.Router();
  *     description: add accommodations
  *     tags:
  *       - Accommodations
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -83,6 +89,12 @@ router.post('/', [checkUser, isProfileUpdated, isTravelAdministrator, accommodat
  *     description: add accommodations
  *     tags:
  *       - Accommodations
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -140,6 +152,11 @@ router.post('/room', [checkUser, isProfileUpdated, isTravelAdministrator, roomsV
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: page
  *         description: page number.
  *         in: path
@@ -173,6 +190,12 @@ router.get('/', [checkUser, isProfileUpdated, validateParams], accommodationCont
  *     description: Users can be able to book accommodations
  *     tags:
  *       - Accommodations
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -228,6 +251,11 @@ accommodationController.bookAccommodation);
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: accommodationId
  *         description: accommodationId.
  *         in: path
@@ -250,6 +278,12 @@ router.post('/feedback', checkUser, validateId, feedbackValidator, accommodation
  *     description: rate accommodations
  *     tags:
  *       - Accommodations
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -292,6 +326,11 @@ router.post('/rating', [checkUser, validateRating], accommodationController.addR
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: accommodationId
  *         description: Get likes per accomodation
  *         in: path
@@ -322,6 +361,11 @@ router.get('/likes/:accommodationId', [checkUser, isProfileUpdated, checkIfAccom
  *               message:
  *                 type: string
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: accommodationId
  *         description:  Like or unlike accommodation
  *         in: path
@@ -346,6 +390,11 @@ router.post('/like-unlike/:accommodationId', [checkUser, isProfileUpdated, check
  *     data:
  *       type: array
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: page
  *         description: page number.
  *         in: path
@@ -387,6 +436,11 @@ router.get('/most-traveled-centres', [checkUser, isProfileUpdated],
  *               data:
  *                 type: object
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: page
  *         description: page number.
  *         in: path
@@ -427,6 +481,11 @@ router.get('/all-accommodations', [checkUser, isProfileUpdated, validateParams],
  *               data:
  *                 type: object
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: page
  *         description: page number.
  *         in: path
@@ -472,6 +531,11 @@ router.get('/search', [checkUser, isProfileUpdated, validateParams], accommodati
  *               data:
  *                 type: object
  *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: accommodation id.
  *         in: path

@@ -10,31 +10,16 @@ import tripsController from '../controllers/tripsController';
 import commentsController from '../controllers/commentsController';
 import app from '../index';
 import { onlineClients } from '../utils/socket';
+import { rusimbipatrick, itsafact57 } from './mock/tokens';
 
 chai.use(chaiHttp);
 
 describe('Notifications', () => {
-  it('It should login auth successfuly', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'rusimbipatrick@outlook.com',
-        password: 'password',
-      })
-      .end((err, res) => {
-        expect(res.body).to.have.keys('status', 'message', 'token');
-        expect(res.body.status).to.be.equal(200);
-        expect(res.body.message).to.be.equal('Connexion utilisateur réussie');
-        expect(res);
-        done();
-      });
-  });
-
   it('It should request a trip to save a notification in the db', (done) => {
     chai
       .request(app)
       .post('/api/v1/trips/request')
+      .set('x-access-token', `${rusimbipatrick}`)
       .send(tripRequestsMock)
       .end((err, res) => {
         expect(res.body).to.have.keys('status', 'message', 'data');
@@ -49,6 +34,7 @@ describe('Notifications', () => {
     chai
       .request(app)
       .put('/api/v1/notifications/preferences')
+      .set('x-access-token', `${rusimbipatrick}`)
       .send({
         notifyByEmail: 'true'
       })
@@ -87,37 +73,11 @@ describe('Notifications', () => {
     sinon.restore();
   });
 
-  it('logging out a user to sign in as a manager ', (done) => {
-    chai
-      .request(app)
-      .delete('/api/v1/auth/logout')
-      .end((err, res) => {
-        expect(res);
-        done();
-      });
-  });
-
-  it('It should login auth successfuly', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'itsafact57@gmail.com',
-        password: 'password',
-      })
-      .end((err, res) => {
-        expect(res.body).to.have.keys('status', 'message', 'token');
-        expect(res.body.status).to.be.equal(200);
-        expect(res.body.message).to.be.equal('Connexion utilisateur réussie');
-        expect(res);
-        done();
-      });
-  });
-
   it('It should return unread notifications ', (done) => {
     chai
       .request(app)
       .get('/api/v1/notifications/unread')
+      .set('x-access-token', `${itsafact57}`)
       .end((err, res) => {
         expect(res.body).to.have.keys('status', 'data');
         expect(res.body.status).to.be.equal(200);
@@ -130,6 +90,7 @@ describe('Notifications', () => {
     chai
       .request(app)
       .get('/api/v1/notifications/unread')
+      .set('x-access-token', `${itsafact57}`)
       .end((err, res) => {
         expect(res.body).to.have.keys('status', 'data');
         expect(res.body.status).to.be.equal(200);
@@ -145,7 +106,6 @@ describe('Notifications', () => {
 
   it('it should fail if something is wrong with notifications', async () => {
     const data = await tripsController.multiCityTrip(notMock.request, notMock.response);
-    console.log(data);
     expect(data.statusCode).to.be.equal(500);
   });
   it('it should fail if something is wrong with notifications', async () => {
@@ -154,7 +114,6 @@ describe('Notifications', () => {
   });
   it('it should fail if something is wrong with notifications', async () => {
     const data = await tripsController.availRequests(notMock.request, notMock.response);
-    console.log(data);
     expect(data.statusCode).to.be.equal(500);
   });
   it('it should fail if something is wrong with notifications', async () => {
@@ -163,7 +122,6 @@ describe('Notifications', () => {
   });
   it('it should fail if something is wrong with notifications', async () => {
     const data = await tripsController.rejectTrip(notMock.request, notMock.response);
-    console.log(data);
     expect(data.statusCode).to.be.equal(500);
   });
   it('it should fail if something is wrong with comment notifications', async () => {

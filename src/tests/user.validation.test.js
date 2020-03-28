@@ -5,6 +5,7 @@ import app from '../index';
 
 chai.use(chaiHttp);
 const prefix = '/api/v1/auth';
+const strongPassword = 'TC866XY9EHEGz!+P'
 
 describe('User input validation', () => {
   it('should return an error message if firstName is not given', (done) => {
@@ -14,7 +15,7 @@ describe('User input validation', () => {
       .send({
         lastName: 'johanes',
         email: 'email@gmail.com',
-        password: 'test123456',
+        password: strongPassword,
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
@@ -32,7 +33,7 @@ describe('User input validation', () => {
         firstName: 'wess12*',
         lastName: 'johanes',
         email: 'email@gmail.com',
-        password: 'test123456',
+        password: strongPassword,
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
@@ -49,7 +50,7 @@ describe('User input validation', () => {
       .send({
         firstName: 'johanes',
         email: 'email@gmail.com',
-        password: 'test123456',
+        password: strongPassword,
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
@@ -67,7 +68,7 @@ describe('User input validation', () => {
         firstName: 'wess',
         lastName: 'johanes12',
         email: 'email@gmail.com',
-        password: 'test123456',
+        password: strongPassword,
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
@@ -84,7 +85,7 @@ describe('User input validation', () => {
       .send({
         firstName: 'johanes',
         lastName: 'mukudwa',
-        password: 'test123456',
+        password: strongPassword,
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
@@ -102,7 +103,7 @@ describe('User input validation', () => {
         firstName: 'johanes',
         lastName: 'mukudwa',
         email: '234.',
-        password: 'test123456',
+        password: strongPassword,
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
@@ -120,7 +121,7 @@ describe('User input validation', () => {
         firstName: 'johanes',
         lastName: 'mukudwa',
         email: 'octopus@andela.com',
-        password: 'test123456',
+        password: strongPassword,
       })
       .end((err, res) => {
         expect(res).to.have.status(409);
@@ -137,12 +138,12 @@ describe('User input validation', () => {
       .send({
         firstName: 'johanes',
         lastName: 'mukudwa',
-        email: 'jean@gmail.com'
+        email: 'jean@gmail.com',
+        password: ''
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
         expect(res.body).to.have.property('message');
-        expect(res.body.message).to.deep.equal(['Password is required']);
         expect(res.body).to.have.property('status', 422);
         done();
       });
@@ -155,12 +156,12 @@ describe('User input validation', () => {
         firstName: 'johanes',
         lastName: 'mukudwa',
         email: 'jean@gmail.com',
-        password: '*23224@343df',
+        password: 'jkfbdkhjs',
       })
       .end((err, res) => {
         expect(res).to.have.status(422);
         expect(res.body).to.have.property('message');
-        expect(res.body.message).to.deep.equal(['Password must be alphanumeric']);
+        expect(res.body.message).to.deep.equal(['Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character.']);
         expect(res.body).to.have.property('status', 422);
         done();
       });
@@ -178,7 +179,6 @@ describe('User input validation', () => {
       .end((err, res) => {
         expect(res).to.have.status(422);
         expect(res.body).to.have.property('message');
-        expect(res.body.message).to.deep.equal(['password length must be longer than 8']);
         expect(res.body).to.have.property('status', 422);
         done();
       });

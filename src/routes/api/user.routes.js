@@ -110,8 +110,6 @@ router.get('/google', passport.authenticate('google', {
 
 
 router.get('/google/callback', passport.authenticate('google', {
-  // failureRedirect: process.env.FRONT_END_FAIL_REDIRECT,
-  // successRedirect: process.env.FRONT_END_SUCCESS_REDIRECT,
 }), userController.socialLogin);
 
 /**
@@ -175,6 +173,12 @@ router.get('/verify/:token', userController.verifyAccount);
  *     description: User can be able to edit his/her profile
  *     tags:
  *       - Users
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -286,6 +290,12 @@ router.put('/profile-settings', [checkUser, checkFirstName, checkLastName,
  *     description: Assign roles to users using their eamils
  *     tags:
  *       - Users
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -346,33 +356,6 @@ router.post('/assign-roles', checkValidEmail, checkRoles, validateResult, checkU
  *         description: login successfully
  */
 router.post('/signin', checkValidEmail, checkPassword, userController.signin);
-
-/**
- * @swagger
- *
- * /api/v1/auth/logout:
- *   delete:
- *     security: []
- *     summary: Logout
- *     description: users can log out of their accounts
- *     tags:
- *       - Users
- *     produces:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               status:
- *                 type: integer
- *               message:
- *                 type: string
- *               token: string
- *     responses:
- *       200:
- *         description: log out successfully
- *  */
-
-router.delete('/logout', userController.logout);
 
 
 /**

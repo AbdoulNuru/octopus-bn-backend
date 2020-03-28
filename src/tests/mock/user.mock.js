@@ -4,7 +4,7 @@ export const user = {
   firstName: 'Abdoul',
   lastName: 'Nuru',
   email: 'nuruniyigena@gmail.com',
-  password: 'abdoul1234'
+  password: 'TC866XY9EHEGz!+P'
 };
 export const email = 'nuruniyigena@gmail.com';
 export const role = 'manager';

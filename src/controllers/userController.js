@@ -1,5 +1,4 @@
 /* eslint-disable require-jsdoc */
-import localStorage from 'localStorage';
 import uuid from 'uuid/v4';
 import bcrypt from 'bcryptjs';
 import { sendVerificationEmail, sendNotificationEmail, sendPasswordResetLink } from 'utils/emailHelper';
@@ -37,7 +36,7 @@ class userController {
       const Token = encode({
         email, firstName, lastName, method
       });
-      localStorage.setItem('Token', Token);
+      
       return res.status(200).json({
         status: 200,
         message: req.i18n.__('loginSuccessfully'),
@@ -53,27 +52,6 @@ class userController {
         }
       });
     }
-  }
-
-  static async logout(req, res) {
-    const token = localStorage.getItem('Token');
-    let preferLang;
-    if (token) {
-      const payload = decode(token);
-      const { preferedLang } = payload;
-      preferLang = preferedLang;
-    }
-    if (!token) {
-      return res.status(403).json({
-        status: 403,
-        message: setLanguage(preferLang).__('Pleaselog'),
-      });
-    }
-    localStorage.removeItem('Token', 0);
-    return res.status(200).json({
-      status: 200,
-      message: setLanguage(preferLang).__('outSuccessfully'),
-    });
   }
 
   /**
@@ -106,7 +84,7 @@ class userController {
         name: newUser.firstName, email: newUser.email, token
       };
 
-      localStorage.setItem('Token', token);
+      
 
       sendVerificationEmail(verificationData);
 
@@ -234,7 +212,7 @@ class userController {
         email,
         preferedLang: registered.preferedLang
       });
-      localStorage.setItem('Token', token);
+      
       return res.status(200).json({
         status: 200,
         message: setLanguage(registered.preferedLang).__('loginSuccessfully'),

@@ -6,6 +6,7 @@ import app from '../index';
 import {
   user, token, email, role
 } from './mock/user.mock';
+import { abdoulniyigena } from './mock/tokens';
 
 Chai.use(chaiHttp);
 Chai.should();
@@ -51,24 +52,11 @@ describe('Barefoot nomad signup tests', () => {
       });
   });
 
-  it('It should login successfuly', (done) => {
-    Chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'abdoulniyigena@gmail.com',
-        password: 'password',
-      })
-      .end((err, res) => {
-        res.body.should.have.status(200);
-        done();
-      });
-  });
-
   it('User should be assigned roles', (done) => {
     Chai
       .request(app)
       .post('/api/v1/auth/assign-roles')
+      .set('x-access-token', `${abdoulniyigena}`)
       .send({ email, role })
       .end((err, res) => {
         res.should.have.status(200);
@@ -81,6 +69,7 @@ describe('Barefoot nomad signup tests', () => {
     Chai
       .request(app)
       .post('/api/v1/auth/assign-roles')
+      .set('x-access-token', `${abdoulniyigena}`)
       .send({ email: 'jim@gmail.com', role })
       .end((err, res) => {
         res.should.have.status(404);

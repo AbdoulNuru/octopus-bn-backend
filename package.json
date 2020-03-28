@@ -7,13 +7,14 @@
     "include": "src",
     "exclude": [
       "build",
+      "**/tests",
       "**/index.js"
     ]
   },
   "scripts": {
     "start": "node --require @babel/polyfill build/index.js",
     "dev": "nodemon --exec babel-node src/index.js",
-    "test": "NODE_ENV=test npm run migrateTest && NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/polyfill --require @babel/register 'src/**/**test.js'  --timeout 200000 --exit",
+    "test": "NODE_ENV=test npm run migrateTest && NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/polyfill --require @babel/register 'src/**/**test.js'  --timeout 500000000 --exit",
     "migrateTest": "node_modules/.bin/sequelize db:migrate:undo:all && node_modules/.bin/sequelize db:migrate && node_modules/.bin/sequelize db:seed:all",
     "lint": "eslint ./src",
     "lintFix": "eslint --fix ./src",
@@ -44,6 +45,7 @@
     "errorhandler": "^1.5.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
+    "express-rate-limit": "^5.1.1",
     "express-session": "^1.17.0",
     "express-validator": "^6.4.0",
     "i18n-2": "^0.7.3",

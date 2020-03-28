@@ -9,23 +9,17 @@ import {
   safeBooking,
   logincredentials
 } from './mock/bookAccomondation';
+import { octopusbn } from './mock/tokens';
 
 chai.use(chaiHttp);
 const prefix = '/api/v1/accommodations/book';
 describe('Booking accommondation', () => {
-  it('should sign in a user first', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send(logincredentials)
-      .end((err, res) => {
-        expect(res.body.status).to.be.equal(200);
-        expect(res);
-        done();
-      });
-  });
   it('should return accommondation is successfully booked', (done) => {
-    chai.request(app).post(`${prefix}`).send(safeBooking).end((err, res) => {
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
+    .send(safeBooking)
+    .end((err, res) => {
       expect(res.body).to.have.keys('status', 'message');
       expect(res.body.status).to.be.equal(201);
       expect(res.body.message).to.be.equal('You have successfully booked your accommodation');
@@ -34,7 +28,10 @@ describe('Booking accommondation', () => {
     });
   });
   it('should return not found when accomondation does not exist', (done) => {
-    chai.request(app).post(`${prefix}`).send(accomoIdNotFound).end((err, res) => {
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
+    .send(accomoIdNotFound).end((err, res) => {
       expect(res.body).to.have.keys('status', 'error');
       expect(res.body.status).to.be.equal(404);
       expect(res.body.error).to.be.equal('Accomondation id is not found');
@@ -43,7 +40,11 @@ describe('Booking accommondation', () => {
     });
   });
   it('should return not found when room is not available', (done) => {
-    chai.request(app).post(`${prefix}`).send(roomIdNotFound).end((err, res) => {
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
+    .send(roomIdNotFound)
+    .end((err, res) => {
       expect(res.body).to.have.keys('status', 'error');
       expect(res.body.status).to.be.equal(404);
       expect(res.body.error).to.be.equal('Room id is not found');
@@ -52,7 +53,11 @@ describe('Booking accommondation', () => {
     });
   });
   it('should return not found when a trip request is not available', (done) => {
-    chai.request(app).post(`${prefix}`).send(tripNotFound).end((err, res) => {
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
+    .send(tripNotFound)
+    .end((err, res) => {
       expect(res.body).to.have.keys('status', 'error');
       expect(res.body.status).to.be.equal(404);
       expect(res.body.error).to.be.equal('Trip request is not found');
@@ -62,7 +67,9 @@ describe('Booking accommondation', () => {
   });
 
   it('should return an error if check in date is invalid', (done) => {
-    chai.request(app).post(`${prefix}`)
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
     .send({
       accommodationId: '49235c57-2153-4e65-8b2b-68c0502165ab',
       roomId: 'f1098fbf-fb64-422e-9133-57aee90ac75c',
@@ -80,7 +87,9 @@ describe('Booking accommondation', () => {
   });
 
   it('should return an error if check out date is invalid', (done) => {
-    chai.request(app).post(`${prefix}`)
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
     .send({
       accommodationId: '49235c57-2153-4e65-8b2b-68c0502165ab',
       roomId: 'f1098fbf-fb64-422e-9133-57aee90ac75c',
@@ -98,7 +107,9 @@ describe('Booking accommondation', () => {
   });
 
   it('should return an error if check in date is not provided', (done) => {
-    chai.request(app).post(`${prefix}`)
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
     .send({
       accommodationId: '49235c57-2153-4e65-8b2b-68c0502165ab',
       roomId: 'f1098fbf-fb64-422e-9133-57aee90ac75c',
@@ -116,7 +127,9 @@ describe('Booking accommondation', () => {
   });
 
   it('should return an error if check out date is not provided', (done) => {
-    chai.request(app).post(`${prefix}`)
+    chai.request(app)
+    .post(`${prefix}`)
+    .set('x-access-token', `${octopusbn}`)
     .send({
       accommodationId: '49235c57-2153-4e65-8b2b-68c0502165ab',
       roomId: 'f1098fbf-fb64-422e-9133-57aee90ac75c',

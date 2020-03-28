@@ -22,6 +22,8 @@ import {
   notYourTripId,
   client
 } from './mock/editTripRequestMock';
+import { octopusbn } from './mock/tokens';
+import io from 'socket.io-client';
 
 Chai.use(chaiHttp);
 Chai.should();
@@ -42,6 +44,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`) 
       .send(stopsMustBeProvided)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -54,6 +57,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(invalidTripType)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -66,6 +70,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(tripWithInvalidCountry)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -78,6 +83,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(invalidFromCity)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -90,6 +96,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(invalidToCountry)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -102,6 +109,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(invalidToCity)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -114,6 +122,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(invalidAccommodationVote)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -126,6 +135,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(invalidDeparture)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -138,6 +148,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(returnDateNotAllowed)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -150,6 +161,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(invalidReturnDate)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -162,6 +174,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${validTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(reasonWithFewChars)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(400);
@@ -174,6 +187,7 @@ describe('Editing a trip request', () => {
     Chai
       .request(app)
       .patch(`/api/v1/trips/${notYourTripId}`)
+      .set('x-access-token', `${octopusbn}`)
       .send(updatedTripRequest)
       .end((err, res) => {
         expect(res.body.status).to.be.equal(403);
@@ -182,32 +196,31 @@ describe('Editing a trip request', () => {
         done();
       });
   });
-  it('should edit trip request like so', (done) => {
-    Chai
-      .request(app)
-      .patch(`/api/v1/trips/${validTripId}`)
-      .send(updatedTripRequest)
-      .end((err, res) => {
-        expect(res.body.status).to.be.equal(200);
-        expect(res.body.message).to.be.equal('Your trip request has been successfully edited!');
-        expect(res);
-        done();
-      before(async () => {
-        client.on('connect', () => {
-          client.emit('connect_user', '0e22ed1c-a1a5-4f49-a4ca-000732bfa49o');
-        });
-        await onlineClients.set('0e22ed1c-a1a5-4f49-a4ca-000732bfa49o');
-        sinon.stub(sendGrid, 'send').returns({
-          to: 'itsafact57@gmail.com',
-          from: 'barefoot@noreply',
-          subject: 'New trip request',
-          text: 'Hello, Octopus.',
-          html: 'emailTemplate'
-        });
-      });
-      after(() => {
-        sinon.restore();
+
+  const socketURL = 'http://localhost:3000';
+
+  const options = {
+    transports: ['websocket'],
+    'force new connection': true
+  };
+
+  const client = io.connect(socketURL, options);
+  client.on('connect', () => {
+    client.emit('connect_user', 'd01cf3f2-4601-4b53-8ffd-fd46b5ded623');
+  });
+  onlineClients.set('d01cf3f2-4601-4b53-8ffd-fd46b5ded623');
+
+      it('should edit trip request like so', (done) => {
+        Chai
+          .request(app)
+          .patch(`/api/v1/trips/${validTripId}`)
+          .set('x-access-token', `${octopusbn}`)
+          .send(updatedTripRequest)
+          .end((err, res) => {
+            expect(res.body.status).to.be.equal(200);
+            expect(res.body.message).to.be.equal('Your trip request has been successfully edited!');
+            expect(res);
+            done();
+          });
       });
   });
-});
-});

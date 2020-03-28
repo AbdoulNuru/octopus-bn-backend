@@ -21,6 +21,12 @@ const router = express.Router();
  *     description: Update User preferences on notifications
  *     tags:
  *       - Notifications
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -53,6 +59,12 @@ router.put('/preferences', [checkUser, notifyByEmail, validateResult], notificat
  *     description: Get all notifications
  *     tags:
  *       - Notifications
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     produces:
  *         application/json:
  *           schema:
@@ -77,6 +89,12 @@ router.get('/', checkUser, notificationController.getAllNotifications);
  *     description: get unread notifications
  *     tags:
  *       - Notifications
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     produces:
  *         application/json:
  *           schema:
@@ -102,6 +120,12 @@ router.get('/unread', checkUser, notificationController.unReadNotifications);
  *     description: Users can mark all unread notifications as read
  *     tags:
  *       - Notifications
+ *     parameters:
+ *       - name: x-access-token
+ *         description: Access token.
+ *         in: header
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
  *         description: all your unread notifications was marked as read

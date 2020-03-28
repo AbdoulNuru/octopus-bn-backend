@@ -138,10 +138,14 @@
 	"yourStats": "Your travel requests statistics between the given dates",
 	"fromDate": "The from date is required and the format is YYYY-MM-DD",
 	"untilDate": "The until date is required and the format is YYYY-MM-DD",
-	"trendingDestinations":"Trending centres are retrieved successfully",
+	"trendingDestinations": "Trending centres are retrieved successfully",
 	"allAccommodations": "All accommodations on barefoot nomad",
 	"results": "Accommodation search results",
 	"oneAccommodation": "Accommodation retrieved successfully",
 	"accommodationIdNotFound": "No accommodation found with the given id",
-	"PleaseOnly": "Only a travel administrator and accommodation supplier are allowed to create accommodations"
+	"PleaseOnly": "Only a travel administrator and accommodation supplier are allowed to create accommodations",
+	"Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character.": "Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character.",
+	"Invalid value": "Invalid value",
+	"Password must be alphanumeric": "Password must be alphanumeric",
+	"Password is required": "Password is required"
 }
